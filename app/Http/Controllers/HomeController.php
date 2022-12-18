@@ -26,14 +26,17 @@ class HomeController extends Controller
     {
         $user =\Auth::user();
         //入力したテキストの取得
-        $memo = Memo::where('user_id', $user['id'])->where('status', 1)->orderBy('updated_at', 'DESC')->get();
-        return view('home', compact('user', 'memo'));
+        $memos = Memo::where('user_id', $user['id'])->where('status', 1)->orderBy('updated_at', 'DESC')->get();
+        return view('home', compact('user', 'memos'));
     }
 
     public function create()
     {
         $user =\Auth::user();
-        return view('create', compact('user'));
+        //入力したテキストの取得
+        $memos = Memo::where('user_id', $user['id'])->where('status', 1)->orderBy('updated_at', 'DESC')->get();
+        return view('create', compact('user', 'memos'));
+
     }
 
     public function store(Request $request)
@@ -51,4 +54,26 @@ class HomeController extends Controller
         // リダイレクト処理
         return redirect()->route('home');
     }
+
+    public function edit($id){
+        // 該当するIDのメモをデータベースから取得
+        $user = \Auth::user();
+        $memo = Memo::where('status', 1)->where('id', $id)->where('user_id', $user['id'])
+          ->first();
+        //  dd($memo);
+
+        $memos = Memo::where('user_id', $user['id'])->where('status', 1)->orderBy('updated_at', 'DESC')->get();
+        //取得したメモをViewに渡す
+        return view('edit',compact('memo', 'user', 'memos'));
+    }
+
+    public function update(Request $request, $id)
+    {
+        $inputs = $request->all();
+        // dd($inputs);
+        Memo::where('id', $id)->update(['content' => $inputs['content'] ]);
+        return redirect()->route('home');
+    }
+
+
 }
