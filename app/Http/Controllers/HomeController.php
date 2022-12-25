@@ -25,19 +25,24 @@ class HomeController extends Controller
      */
     public function index()
     {
-        $user =\Auth::user();
+        //下記をAppServiceProvider.phpに記載
+        //$user =\Auth::user();
         //入力したテキストの取得
-        $memos = Memo::where('user_id', $user['id'])->where('status', 1)->orderBy('updated_at', 'DESC')->get();
-        return view('home', compact('user', 'memos'));
+        //$memos = Memo::where('user_id', $user['id'])->where('status', 1)->orderBy('updated_at', 'DESC')->get();
+        //return view('create', compact('user', 'memos'));
+
+        return view('create');
     }
 
     public function create()
     {
-        $user =\Auth::user();
+        //下記をAppServiceProvider.phpに記載
+        //$user =\Auth::user();
         //入力したテキストの取得
-        $memos = Memo::where('user_id', $user['id'])->where('status', 1)->orderBy('updated_at', 'DESC')->get();
-        return view('create', compact('user', 'memos'));
+        //$memos = Memo::where('user_id', $user['id'])->where('status', 1)->orderBy('updated_at', 'DESC')->get();
+        //return view('create', compact('user', 'memos'));
 
+        return view('create');
     }
 
     public function store(Request $request)
@@ -71,10 +76,13 @@ class HomeController extends Controller
           ->first();
         //  dd($memo);
 
-        $memos = Memo::where('user_id', $user['id'])->where('status', 1)->orderBy('updated_at', 'DESC')->get();
+        //下記をAppServiceProvider.phpに記載
+        //$memos = Memo::where('user_id', $user['id'])->where('status', 1)->orderBy('updated_at', 'DESC')->get();
         //取得したメモをViewに渡す
-        $tags = Tag::where('user_id', $user['id'])->get();
-        return view('edit',compact('memo', 'user', 'memos', 'tags'));
+        //$tags = Tag::where('user_id', $user['id'])->get();
+        //return view('edit',compact('memo', 'user', 'memos', 'tags'));
+
+        return view('edit',compact('memo'));
     }
 
     public function update(Request $request, $id)
